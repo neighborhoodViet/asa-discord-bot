@@ -51,7 +51,6 @@ repost_channel = bot.get_channel(1419688863475040288)
 birthday_channel = bot.get_channel(1355030340607017102)
 asa_members = {"Jaira": 1405950487622324284, "David": 461679009131003937, "Sakina": 1291219047731433482, "Thien": 477488906489561099, "Cathy": 816122867921453076, "Antinet": 654086056924151808, "An": 531296756613382165, "Uyanga": 755435417993740309, "Clare": 1358923944983531642, "Divya": 1288632175108947968}
 temp = []
-time_to_post = 9    # starts at 9 AM for testing purposes
 last_day_updated = None
 
 @tasks.loop(hours=1)
@@ -63,30 +62,35 @@ async def main_loop():
     if "birthday" in next_event_name.lower():
         birthday_person = asa_members[next_event_name.split("'")[0]]
         await birthday_channel.send(f"{birthday_text()} {bot.get_user(birthday_person)}!!")
+        return
 
     if not temp:
         temp = asa_members.values()
 
     now = datetime.now(tz=timezone("US/Eastern"))
-    if last_day_updated != now.day and time_to_post == now.hour:
-        last_day_updated = now.day
+    if last_day_updated != now.day and now.hour == 11:
+        try:
+            last_day_updated = now.day
 
-        num_of_reposters = len(temp) / days_remaining
-        num_of_reposters = ceil(num_of_reposters) if randint(0, 1) == 0 else floor(num_of_reposters)
+            num_of_reposters = len(temp) / days_remaining
+            num_of_reposters = ceil(num_of_reposters) if randint(0, 1) == 0 else floor(num_of_reposters)
 
-        selected_reposters = []
-        for _ in range(num_of_reposters):
-            selected_reposter = randint(0, len(temp) - 1)
-            selected_reposters.append(selected_reposter)
-            temp.pop(selected_reposter)
+            selected_reposters = []
+            for _ in range(num_of_reposters):
+                selected_reposter = randint(0, len(temp) - 1)
+                selected_reposters.append(selected_reposter)
+                temp.pop(selected_reposter)
 
-        result_str = ""
-        for x in selected_reposters:
-            result_str += f"{bot.get_user(x).mention or bot.get_guild(1336139315079548999).get_role(x)} "
+            result_str = ""
+            for x in selected_reposters:
+                result_str += f"{bot.get_user(x).mention or bot.get_guild(1336139315079548999).get_role(x)} "
 
-        await repost_channel.send(f"{result_str}\n Please repost {next_event_name}\n {10 - len(selected_reposters)} / 10 remaining")
-    elif now.hour == 13:
-        time_to_post = randint(10, 12)
+            await repost_channel.send(f"{result_str}\n Please repost {next_event_name}\n {10 - len(selected_reposters)} / 10 remaining")
+
+            return
+        except:
+            print("An error has occurred")
+
 
 @bot.command()
 async def repost(ctx):
