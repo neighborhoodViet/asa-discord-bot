@@ -85,7 +85,7 @@ async def main_loop():
         selected_reposters = []
         for _ in range(num_of_reposters):
             selected_reposter = randint(0, len(temp) - 1)
-            selected_reposters.append(selected_reposter)
+            selected_reposters.append(temp[selected_reposter])
             temp.pop(selected_reposter)
 
         result_str = ""
