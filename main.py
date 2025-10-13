@@ -66,6 +66,7 @@ async def main_loop():
 
     global temp
     global last_day_updated
+    global time_to_post
 
     if not temp:
         temp = asa_members.values()
@@ -90,12 +91,5 @@ async def main_loop():
 
         await repost_channel.send(f"{result_str}\n Please repost {next_event_name}\n {10 - len(selected_reposters)} / 10 remaining")
 
-@bot.command()
-async def repost(ctx):
-    members = ctx.guild.members
-    users = [member.name for member in members]
-    users.remove(bot.user.name)
-    print(users)
-
-
-bot.run(token, log_handler=handler, log_level=logging.DEBUG)
+if __name__ == '__main__':
+    bot.run(token, log_handler=handler, log_level=logging.DEBUG)
