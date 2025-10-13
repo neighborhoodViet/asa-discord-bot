@@ -1,0 +1,5 @@
+.env
+token.json
+discord.log
+*.pyc
+credentials.json
