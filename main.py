@@ -87,7 +87,12 @@ async def main_loop():
 
         result_str = ""
         for x in selected_reposters:
-            result_str += f"{bot.get_user(x).mention or bot.get_guild(1336139315079548999).get_role(x).mention} "
+            try:
+                user_to_mention = bot.get_user(x).mention
+            except AttributeError:
+                user_to_mention = bot.get_guild(1336139315079548999).get_role(x).mention
+            
+            result_str += f"{user_to_mention} "
 
         await repost_channel.send(f"{result_str}\n Please repost {next_event_name}\n {10 - len(selected_reposters)} / 10 remaining")
 
