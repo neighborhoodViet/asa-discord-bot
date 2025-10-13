@@ -47,9 +47,9 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-repost_channel = bot.get_channel(id=1419688863475040288)
-birthday_channel = bot.get_channel(id=1355030340607017102)
-bot_guild = bot.get_guild(id=1336139315079548999)
+repost_channel = bot.get_channel(1419688863475040288)
+birthday_channel = bot.get_channel(1355030340607017102)
+bot_guild = bot.get_guild(1336139315079548999)
 
 asa_members = {"Jaira": 1405950487622324284, "David": 461679009131003937, "Sakina": 1291219047731433482, "Thien": 477488906489561099, "Cathy": 816122867921453076, "Antinet": 654086056924151808, "An": 531296756613382165, "Uyanga": 755435417993740309, "Clare": 1358923944983531642, "Divya": 1288632175108947968}
 
@@ -91,9 +91,9 @@ async def main_loop():
         result_str = ""
         for x in selected_reposters:
             try:
-                user_to_mention = bot_guild.get_member(user_id=x).mention
+                user_to_mention = bot_guild.get_member(x).mention
             except AttributeError:
-                user_to_mention = bot_guild.get_role(role_id=x).mention
+                user_to_mention = bot_guild.get_role(x).mention
             
             result_str += f"{user_to_mention} "
 
