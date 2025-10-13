@@ -3,36 +3,22 @@ import os.path
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
+from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-SCOPES = ['https://www.googleapis.com/auth/calendar']
+SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+SERVICE_ACCOUNT_FILE = "credentials.json"
 ASA_CALENDAR = "d3b6eb598f0111b1330b8ac24b471c133808d236292b8835fdb432c4f7dd087a@group.calendar.google.com"
-service = None
 
-creds = None
-
-if os.path.exists("token.json"):
-    creds = Credentials.from_authorized_user_file("token.json")
-
-if not creds or not creds.valid:
-    if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-
-    else:
-        flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
-        creds = flow.run_local_server(port=0)
-
-    with open("token.json", "w") as token:
-        token.write(creds.to_json())
+creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 
 try:
-    service = build("calendar", "v3", credentials=creds) if not service else None
+    service = build("calendar", "v3", credentials=creds)
 
     currentTime = dt.datetime.now(tz=dt.timezone.utc).isoformat()
 
-    event_result = service.events().list(calendarId="d3b6eb598f0111b1330b8ac24b471c133808d236292b8835fdb432c4f7dd087a@group.calendar.google.com", maxResults=3, timeMin=currentTime, orderBy="startTime", singleEvents=True, timeZone='UTC').execute()
+    event_result = service.events().list(calendarId=ASA_CALENDAR, maxResults=3, timeMin=currentTime, orderBy="startTime", singleEvents=True, timeZone='UTC').execute()
     events = event_result.get("items", [])
 
     if events:
