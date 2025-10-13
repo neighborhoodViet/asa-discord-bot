@@ -29,7 +29,7 @@ bot = commands.Bot(command_prefix='!', intents=intents) #! hello"
 @bot.event
 async def on_ready():
     print(f"ASA Bot is ready to work! {bot.user.name}")
-    #test_ping.start()
+    main_loop()
 
 @bot.event
 async def on_message(message):
