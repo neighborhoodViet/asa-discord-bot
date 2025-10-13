@@ -69,7 +69,7 @@ async def main_loop():
     global time_to_post
 
     if not temp:
-        temp = asa_members.values()
+        temp = list(asa_members.values())
 
     now = datetime.now(tz=timezone("US/Eastern"))
     if last_day_updated != now.day and now.hour == time_to_post:
