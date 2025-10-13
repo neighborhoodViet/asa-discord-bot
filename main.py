@@ -29,6 +29,14 @@ bot = commands.Bot(command_prefix='!', intents=intents) #! hello"
 @bot.event
 async def on_ready():
     print(f"ASA Bot is ready to work! {bot.user.name}")
+    global repost_channel
+    global birthday_channel
+    global bot_guild
+
+    repost_channel = bot.get_channel(1419688863475040288)
+    birthday_channel = bot.get_channel(1355030340607017102)
+    bot_guild = bot.get_guild(1336139315079548999)
+
     main_loop.start()
 
 @bot.event
@@ -47,9 +55,6 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-repost_channel = bot.get_channel(1419688863475040288)
-birthday_channel = bot.get_channel(1355030340607017102)
-bot_guild = bot.get_guild(1336139315079548999)
 
 asa_members = {"Jaira": 1405950487622324284, "David": 461679009131003937, "Sakina": 1291219047731433482, "Thien": 477488906489561099, "Cathy": 816122867921453076, "Antinet": 654086056924151808, "An": 531296756613382165, "Uyanga": 755435417993740309, "Clare": 1358923944983531642, "Divya": 1288632175108947968}
 
