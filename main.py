@@ -30,7 +30,7 @@ async def on_ready():
     global birthday_channel
     global bot_guild
 
-    with open('/etc/secrets/guild_channels.json', 'r') as f:
+    with open('guild_channels.json', 'r') as f:
         guild_channels = json.load(f)
 
     repost_channel = bot.get_channel(guild_channels["repost_channel"])
@@ -56,7 +56,7 @@ async def on_message(message):
     await bot.process_commands(message)
 
 
-with open('etc/secrets/users.json', 'r') as u:
+with open('users.json', 'r') as u:
     asa_members = json.load(u)
 
 temp = []
