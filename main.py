@@ -62,7 +62,7 @@ with open('/etc/secrets/users.json', 'r') as u:
 temp = []
 last_day_updated = None
 time_to_post = None
-skip = True
+skip = False
 skipped_event = None
 
 @tasks.loop(hours=1)
@@ -92,7 +92,7 @@ async def main_loop():
         return
 
     now = datetime.now(tz=timezone("US/Eastern"))
-    if (last_day_updated != now.day and now.hour == time_to_post) or not last_day_updated or not time_to_post:
+    if (last_day_updated != now.day and now.hour == time_to_post) or not last_day_updated:
         last_day_updated = now.day
         time_to_post = randint(10, 13)
 
