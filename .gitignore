@@ -3,3 +3,5 @@ token.json
 discord.log
 *.pyc
 credentials.json
+discord.log
+*.json
