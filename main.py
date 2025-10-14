@@ -62,7 +62,7 @@ with open('/etc/secrets/users.json', 'r') as u:
 temp = []
 last_day_updated = None
 time_to_post = None
-skip = False
+skip = True
 skipped_event = None
 
 @tasks.loop(hours=1)
@@ -120,19 +120,19 @@ async def main_loop():
 async def skip_event(ctx):
     global skip
     global skipped_event
-    skip = not skip
+    skip = True
     skipped_event = next_event_name
 
-    await ctx.send(f"Repost pings have been set to {skip}")
+    await ctx.send(f"{next_event_name} will be skipped for reminder pings.")
 
 @bot.command()
 async def unskip_event(ctx):
     global skip
     global skipped_event
-    skip = not skip
+    skip = False
     skipped_event = next_event_name
 
-    await ctx.send(f"Repost pings have been set to {skip}")
+    await ctx.send(f"{next_event_name} will have event reminder pings.")
 
 if __name__ == '__main__':
     bot.run(token, log_handler=handler, log_level=logging.DEBUG)
