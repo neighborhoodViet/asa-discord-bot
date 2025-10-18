@@ -62,7 +62,7 @@ with open('/etc/secrets/users.json', 'r') as u:
 temp = []
 last_day_updated = None
 time_to_post = None
-skip = True
+skip = False
 skipped_event = None
 
 @tasks.loop(hours=1)
