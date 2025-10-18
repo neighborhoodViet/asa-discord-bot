@@ -54,6 +54,9 @@ def get_next_event():
         if "week" not in event_name_lower and "meeting" not in event_name_lower and 'equipment' not in event_name_lower:
             start = dt.datetime.fromisoformat(event["start"].get("dateTime", event["start"].get("date")))
 
+            if not start.tzinfo:
+                start = start.replace(tzinfo=dt.timezone.utc)
+
             delta = start - now
             if ("birthday" in event_name_lower and start.day == now.day) or 0 < delta.days <= 4:
                 return event_name, delta.days
