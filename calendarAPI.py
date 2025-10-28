@@ -45,7 +45,7 @@ def get_next_event():
 
     if not events:
         print("No upcoming events found")
-        return
+        return None
     
     for event in events:
         event_name = event['summary']

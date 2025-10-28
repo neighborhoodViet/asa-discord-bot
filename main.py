@@ -68,6 +68,10 @@ skipped_event = None
 @tasks.loop(hours=1)
 async def main_loop():
     next_event = get_next_event()
+
+    if not next_event:
+        return
+
     global next_event_name
     next_event_name = next_event[0]
     days_remaining = next_event[1]
@@ -94,7 +98,7 @@ async def main_loop():
     now = datetime.now(tz=timezone("US/Eastern"))
     if (last_day_updated != now.day and now.hour == time_to_post) or not last_day_updated:
         last_day_updated = now.day
-        time_to_post = randint(10, 13)
+        time_to_post = randint(12, 14)
 
         num_of_reposters = len(temp) / days_remaining
         num_of_reposters = ceil(num_of_reposters) if randint(0, 1) == 0 else floor(num_of_reposters)
